@@ -234,8 +234,8 @@
          * @return ORM
          */
         public static function for_table($table_name, $connection_name = self::DEFAULT_CONNECTION) {
-            self::_setup_db($connection_name);
-            return new self($table_name, array(), $connection_name);
+            static::_setup_db($connection_name);
+            return new static($table_name, array(), $connection_name);
         }
 
         /**
@@ -584,7 +584,7 @@
          * array of data fetched from the database)
          */
         protected function _create_instance_from_row($row) {
-            $instance = self::for_table($this->_table_name, $this->_connection_name);
+            $instance = static::for_table($this->_table_name, $this->_connection_name);
             $instance->use_id_column($this->_instance_id_column);
             $instance->hydrate($row);
             return $instance;
