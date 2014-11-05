@@ -37,6 +37,6 @@
         "php": ">=5.2.0"
     },
     "autoload": {
-        "classmap": ["idiorm.php"]
+        "psr-0": { "": "src/" }
     }
 }
