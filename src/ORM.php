@@ -37,6 +37,7 @@
  *
  */
 
+use \PDOException;
 
 /**
  * TODO: add class doc
@@ -410,8 +411,14 @@ class ORM implements ArrayAccess {
     * @param string $connection_name Which connection to use
     * @return bool Response of PDOStatement::execute()
     */
-    protected static function _execute($query, $parameters = array(), $connection_name = self::DEFAULT_CONNECTION) {
-        $statement = self::get_db($connection_name)->prepare($query);
+    protected static function _execute($query, $parameters = array(), $connection_name = self::DEFAULT_CONNECTION)
+    {
+        try {
+            $statement = self::get_db($connection_name)->prepare($query);
+        } catch(PDOException $e) {
+            self::_log_query("ERROR IN query: ".$query, $parameters, $connection_name, null);
+            throw $e;
+        }
         self::$_last_statement = $statement;
         $time = microtime(true);
 
@@ -429,7 +436,12 @@ class ORM implements ArrayAccess {
             $statement->bindParam(is_int($key) ? ++$key : $key, $param, $type);
         }
 
-        $q = $statement->execute();
+        try {
+            $q = $statement->execute();
+        } catch(PDOException $e) {
+            self::_log_query("ERROR IN query: ".$query, $parameters, $connection_name, (microtime(true)-$time));
+            throw $e;
+        }
         self::_log_query($query, $parameters, $connection_name, (microtime(true)-$time));
 
         return $q;
