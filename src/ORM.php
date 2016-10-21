@@ -144,6 +144,9 @@ class ORM implements ArrayAccess {
     // OFFSET
     protected $_offset = null;
 
+    // LOCK
+    protected $_lock = NULL;
+
     // ORDER BY
     protected $_order_by = array();
 
@@ -671,7 +674,7 @@ class ORM implements ArrayAccess {
      * @return array
      */
     public function find_array() {
-        return $this->_run(); 
+        return $this->_run();
     }
 
     /**
@@ -1401,6 +1404,14 @@ class ORM implements ArrayAccess {
     }
 
     /**
+     * Add FOR UPDATE lock to the query
+     */
+    public function for_update() {
+        $this->_lock = 'FOR UPDATE';
+        return $this;
+    }
+
+    /**
      * Add an ORDER BY clause to the query
      */
     protected function _add_order_by($column_name, $ordering) {
@@ -1590,6 +1601,7 @@ class ORM implements ArrayAccess {
             $this->_build_order_by(),
             $this->_build_limit(),
             $this->_build_offset(),
+            $this->_build_lock(),
         ));
     }
 
@@ -1710,6 +1722,16 @@ class ORM implements ArrayAccess {
                 $clause = 'TO';
             }
             return "$clause " . $this->_offset;
+        }
+        return '';
+    }
+
+    /**
+     * Build LOCK
+     */
+    protected function _build_LOCK() {
+        if (!is_null($this->_lock)) {
+            return ' ' . $this->_lock;
         }
         return '';
     }
