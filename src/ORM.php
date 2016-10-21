@@ -445,7 +445,15 @@ class ORM implements ArrayAccess {
             self::_log_query("ERROR IN query: ".$query, $parameters, $connection_name, (microtime(true)-$time));
             throw $e;
         }
-        self::_log_query($query, $parameters, $connection_name, (microtime(true)-$time));
+        if($q===true) {
+            self::_log_query($query, $parameters, $connection_name, (microtime(true)-$time));
+        } else {
+            $c = self::get_db($connection_name);
+            self::_log_query("UNSUCCESSFUL query: ".$query."\n"
+                ."result: ".vare($q).": (".vare($statement->errorCode()).") ".vare($statement->errorInfo())."\n"
+                ."connection: ".vare($c->errorCode()).": ".vare($c->errorInfo())
+                , $parameters, $connection_name, (microtime(true)-$time));
+        }
 
         return $q;
     }
@@ -474,27 +482,12 @@ class ORM implements ArrayAccess {
             self::$_query_log[$connection_name] = array();
         }
 
-        // Strip out any non-integer indexes from the parameters
-        foreach($parameters as $key => $value) {
-            if (!is_int($key)) unset($parameters[$key]);
-        }
-
         if (count($parameters) > 0) {
-            // Escape the parameters
-            $parameters = array_map(array(self::get_db($connection_name), 'quote'), $parameters);
-
-            // Avoid %format collision for vsprintf
-            $query = str_replace("%", "%%", $query);
-
-            // Replace placeholders in the query for vsprintf
-            if(false !== strpos($query, "'") || false !== strpos($query, '"')) {
-                $query = IdiormString::str_replace_outside_quotes("?", "%s", $query);
-            } else {
-                $query = str_replace("?", "%s", $query);
-            }
+            $parameters = var_export($parameters, true);
+            $parameters = preg_replace("/\n/", "", $parameters);
 
             // Replace the question marks in the query with the parameters
-            $bound_query = vsprintf($query, $parameters);
+            $bound_query = $query." {".$parameters."}";
         } else {
             $bound_query = $query;
         }
