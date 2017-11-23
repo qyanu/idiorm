@@ -41,6 +41,8 @@
 /**
  * A result set class for working with collections of model instances
  * @author Simon Holywell <treffynnon@php.net>
+ * @method null setResults(array $results)
+ * @method array getResults()
  */
 class IdiormResultSet implements Countable, IteratorAggregate, ArrayAccess, Serializable {
     /**
