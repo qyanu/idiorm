@@ -111,7 +111,6 @@
  * @method bool isNew()
  */
 
-use \PDOException;
 
 /**
  * TODO: add class doc
