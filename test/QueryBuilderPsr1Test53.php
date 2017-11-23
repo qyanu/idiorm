@@ -30,55 +30,55 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testFindOneWithPrimaryKeyFilter() {
         ORM::forTable('widget')->findOne(5);
-        $expected = "SELECT * FROM `widget` WHERE `id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereIdIs() {
         ORM::forTable('widget')->whereIdIs(5)->findOne();
-        $expected = "SELECT * FROM `widget` WHERE `id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testSingleWhereClause() {
         ORM::forTable('widget')->where('name', 'Fred')->findOne();
-        $expected = "SELECT * FROM `widget` WHERE `name` = 'Fred' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `name` = ? LIMIT 1 {array (  0 => 'Fred',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testMultipleWhereClauses() {
         ORM::forTable('widget')->where('name', 'Fred')->where('age', 10)->findOne();
-        $expected = "SELECT * FROM `widget` WHERE `name` = 'Fred' AND `age` = '10' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `name` = ? AND `age` = ? LIMIT 1 {array (  0 => 'Fred',  1 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereNotEqual() {
         ORM::forTable('widget')->whereNotEqual('name', 'Fred')->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `name` != 'Fred'";
+        $expected = "SELECT * FROM `widget` WHERE `name` != ? {array (  0 => 'Fred',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereLike() {
         ORM::forTable('widget')->whereLike('name', '%Fred%')->findOne();
-        $expected = "SELECT * FROM `widget` WHERE `name` LIKE '%Fred%' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `name` LIKE ? LIMIT 1 {array (  0 => '%Fred%',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereNotLike() {
         ORM::forTable('widget')->whereNotLike('name', '%Fred%')->findOne();
-        $expected = "SELECT * FROM `widget` WHERE `name` NOT LIKE '%Fred%' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `name` NOT LIKE ? LIMIT 1 {array (  0 => '%Fred%',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereIn() {
         ORM::forTable('widget')->whereIn('name', array('Fred', 'Joe'))->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `name` IN ('Fred', 'Joe')";
+        $expected = "SELECT * FROM `widget` WHERE `name` IN (?, ?) {array (  0 => 'Fred',  1 => 'Joe',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereNotIn() {
         ORM::forTable('widget')->whereNotIn('name', array('Fred', 'Joe'))->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `name` NOT IN ('Fred', 'Joe')";
+        $expected = "SELECT * FROM `widget` WHERE `name` NOT IN (?, ?) {array (  0 => 'Fred',  1 => 'Joe',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -138,55 +138,55 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testHaving() {
         ORM::forTable('widget')->groupBy('name')->having('name', 'Fred')->findOne();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = 'Fred' LIMIT 1";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = ? LIMIT 1 {array (  0 => 'Fred',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testMultipleHaving() {
         ORM::forTable('widget')->groupBy('name')->having('name', 'Fred')->having('age', 10)->findOne();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = 'Fred' AND `age` = '10' LIMIT 1";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = ? AND `age` = ? LIMIT 1 {array (  0 => 'Fred',  1 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingNotEqual() {
         ORM::forTable('widget')->groupBy('name')->havingNotEqual('name', 'Fred')->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` != 'Fred'";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` != ? {array (  0 => 'Fred',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingLike() {
         ORM::forTable('widget')->groupBy('name')->havingLike('name', '%Fred%')->findOne();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` LIKE '%Fred%' LIMIT 1";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` LIKE ? LIMIT 1 {array (  0 => '%Fred%',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingNotLike() {
         ORM::forTable('widget')->groupBy('name')->havingNotLike('name', '%Fred%')->findOne();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` NOT LIKE '%Fred%' LIMIT 1";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` NOT LIKE ? LIMIT 1 {array (  0 => '%Fred%',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingIn() {
         ORM::forTable('widget')->groupBy('name')->havingIn('name', array('Fred', 'Joe'))->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` IN ('Fred', 'Joe')";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` IN (?, ?) {array (  0 => 'Fred',  1 => 'Joe',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingNotIn() {
         ORM::forTable('widget')->groupBy('name')->havingNotIn('name', array('Fred', 'Joe'))->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` NOT IN ('Fred', 'Joe')";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` NOT IN (?, ?) {array (  0 => 'Fred',  1 => 'Joe',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingLessThan() {
         ORM::forTable('widget')->groupBy('name')->havingLt('age', 10)->havingGt('age', 5)->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `age` < '10' AND `age` > '5'";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `age` < ? AND `age` > ? {array (  0 => 10,  1 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testHavingLessThanOrEqualAndGreaterThanOrEqual() {
         ORM::forTable('widget')->groupBy('name')->havingLte('age', 10)->havingGte('age', 5)->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `age` <= '10' AND `age` >= '5'";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `age` <= ? AND `age` >= ? {array (  0 => 10,  1 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -204,25 +204,25 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testRawHaving() {
         ORM::forTable('widget')->groupBy('name')->havingRaw('`name` = ? AND (`age` = ? OR `age` = ?)', array('Fred', 5, 10))->findMany();
-        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = 'Fred' AND (`age` = '5' OR `age` = '10')";
+        $expected = "SELECT * FROM `widget` GROUP BY `name` HAVING `name` = ? AND (`age` = ? OR `age` = ?) {array (  0 => 'Fred',  1 => 5,  2 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testComplexQuery() {
         ORM::forTable('widget')->where('name', 'Fred')->limit(5)->offset(5)->orderByAsc('name')->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `name` = 'Fred' ORDER BY `name` ASC LIMIT 5 OFFSET 5";
+        $expected = "SELECT * FROM `widget` WHERE `name` = ? ORDER BY `name` ASC LIMIT 5 OFFSET 5 {array (  0 => 'Fred',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereLessThanAndGreaterThan() {
         ORM::forTable('widget')->whereLt('age', 10)->whereGt('age', 5)->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `age` < '10' AND `age` > '5'";
+        $expected = "SELECT * FROM `widget` WHERE `age` < ? AND `age` > ? {array (  0 => 10,  1 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testWhereLessThanAndEqualAndGreaterThanAndEqual() {
         ORM::forTable('widget')->whereLte('age', 10)->whereGte('age', 5)->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `age` <= '10' AND `age` >= '5'";
+        $expected = "SELECT * FROM `widget` WHERE `age` <= ? AND `age` >= ? {array (  0 => 10,  1 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -240,13 +240,13 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testRawWhereClause() {
         ORM::forTable('widget')->whereRaw('`name` = ? AND (`age` = ? OR `age` = ?)', array('Fred', 5, 10))->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `name` = 'Fred' AND (`age` = '5' OR `age` = '10')";
+        $expected = "SELECT * FROM `widget` WHERE `name` = ? AND (`age` = ? OR `age` = ?) {array (  0 => 'Fred',  1 => 5,  2 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testRawWhereClauseWithPercentSign() {
         ORM::forTable('widget')->whereRaw('STRFTIME("%Y", "now") = ?', array(2012))->findMany();
-        $expected = "SELECT * FROM `widget` WHERE STRFTIME(\"%Y\", \"now\") = '2012'";
+        $expected = "SELECT * FROM `widget` WHERE STRFTIME(\"%Y\", \"now\") = ? {array (  0 => 2012,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -258,7 +258,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testRawWhereClauseInMethodChain() {
         ORM::forTable('widget')->where('age', 18)->whereRaw('(`name` = ? OR `name` = ?)', array('Fred', 'Bob'))->where('size', 'large')->findMany();
-        $expected = "SELECT * FROM `widget` WHERE `age` = '18' AND (`name` = 'Fred' OR `name` = 'Bob') AND `size` = 'large'";
+        $expected = "SELECT * FROM `widget` WHERE `age` = ? AND (`name` = ? OR `name` = ?) AND `size` = ? {array (  0 => 18,  1 => 'Fred',  2 => 'Bob',  3 => 'large',)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -270,13 +270,13 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testRawQueryWithParameters() {
         ORM::forTable('widget')->rawQuery('SELECT `w`.* FROM `widget` w WHERE `name` = ? AND `age` = ?', array('Fred', 5))->findMany();
-        $expected = "SELECT `w`.* FROM `widget` w WHERE `name` = 'Fred' AND `age` = '5'";
+        $expected = "SELECT `w`.* FROM `widget` w WHERE `name` = ? AND `age` = ? {array (  0 => 'Fred',  1 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testRawQueryWithNamedPlaceholders() {
         ORM::forTable('widget')->rawQuery('SELECT `w`.* FROM `widget` w WHERE `name` = :name AND `age` = :age', array(':name' => 'Fred', ':age' => 5))->findMany();
-        $expected = "SELECT `w`.* FROM `widget` w WHERE `name` = 'Fred' AND `age` = '5'";
+        $expected = "SELECT `w`.* FROM `widget` w WHERE `name` = :name AND `age` = :age {array (  ':name' => 'Fred',  ':age' => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -336,7 +336,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testSimpleJoinWithWhereIdIsMethod() {
         ORM::forTable('widget')->join('widget_handle', array('widget_handle.widget_id', '=', 'widget.id'))->findOne(5);
-        $expected = "SELECT * FROM `widget` JOIN `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id` WHERE `widget`.`id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` JOIN `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id` WHERE `widget`.`id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -381,7 +381,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testJoinWithAliasesAndWhere() {
         ORM::forTable('widget')->tableAlias('w')->join('widget_handle', array('wh.widget_id', '=', 'w.id'), 'wh')->whereEqual('id', 1)->findMany();
-        $expected = "SELECT * FROM `widget` `w` JOIN `widget_handle` `wh` ON `wh`.`widget_id` = `w`.`id` WHERE `w`.`id` = '1'";
+        $expected = "SELECT * FROM `widget` `w` JOIN `widget_handle` `wh` ON `wh`.`widget_id` = `w`.`id` WHERE `w`.`id` = ? {array (  0 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -399,7 +399,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
 
     public function testRawJoinWithParameters() {
         ORM::forTable('widget')->rawJoin('INNER JOIN ( SELECT * FROM `widget_handle` WHERE `widget_handle`.name LIKE ? AND `widget_handle`.category = ?)', array('widget_handle.widget_id', '=', 'widget.id'), 'widget_handle', array('%button%', 2))->findMany();
-        $expected = "SELECT * FROM `widget` INNER JOIN ( SELECT * FROM `widget_handle` WHERE `widget_handle`.name LIKE '%button%' AND `widget_handle`.category = '2') `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id`";
+        $expected = "SELECT * FROM `widget` INNER JOIN ( SELECT * FROM `widget_handle` WHERE `widget_handle`.name LIKE ? AND `widget_handle`.category = ?) `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id` {array (  0 => '%button%',  1 => 2,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -409,7 +409,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
             ->rawJoin('INNER JOIN ( SELECT * FROM `person` WHERE `person`.name LIKE ?)', array('person.id', '=', 'widget.person_id'), 'person', array('%Fred%'))
             ->whereRaw('`id` > ? AND `id` < ?', array(5, 10))
             ->findMany();
-        $expected = "SELECT * FROM `widget` INNER JOIN ( SELECT * FROM `widget_handle` WHERE `widget_handle`.name LIKE '%button%' AND `widget_handle`.category = '2') `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id` INNER JOIN ( SELECT * FROM `person` WHERE `person`.name LIKE '%Fred%') `person` ON `person`.`id` = `widget`.`person_id` WHERE `id` > '5' AND `id` < '10'";
+        $expected = "SELECT * FROM `widget` INNER JOIN ( SELECT * FROM `widget_handle` WHERE `widget_handle`.name LIKE ? AND `widget_handle`.category = ?) `widget_handle` ON `widget_handle`.`widget_id` = `widget`.`id` INNER JOIN ( SELECT * FROM `person` WHERE `person`.name LIKE ?) `person` ON `person`.`id` = `widget`.`person_id` WHERE `id` > ? AND `id` < ? {array (  0 => '%button%',  1 => 2,  2 => '%Fred%',  3 => 5,  4 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -424,7 +424,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->name = "Fred";
         $widget->age = 10;
         $widget->save();
-        $expected = "INSERT INTO `widget` (`name`, `age`) VALUES ('Fred', '10')";
+        $expected = "INSERT INTO `widget` (`name`, `age`) VALUES (?, ?) {array (  0 => 'Fred',  1 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -434,7 +434,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->age = 10;
         $widget->setExpr('added', 'NOW()');
         $widget->save();
-        $expected = "INSERT INTO `widget` (`name`, `age`, `added`) VALUES ('Fred', '10', NOW())";
+        $expected = "INSERT INTO `widget` (`name`, `age`, `added`) VALUES (?, ?, NOW()) {array (  0 => 'Fred',  1 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -443,7 +443,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget['name'] = "Fred";
         $widget['age'] = 10;
         $widget->save();
-        $expected = "INSERT INTO `widget` (`name`, `age`) VALUES ('Fred', '10')";
+        $expected = "INSERT INTO `widget` (`name`, `age`) VALUES (?, ?) {array (  0 => 'Fred',  1 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -452,7 +452,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->name = "Fred";
         $widget->age = 10;
         $widget->save();
-        $expected = "UPDATE `widget` SET `name` = 'Fred', `age` = '10' WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `name` = ?, `age` = ? WHERE `id` = ? {array (  0 => 'Fred',  1 => 10,  2 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -462,7 +462,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->age = 10;
         $widget->setExpr('added', 'NOW()');
         $widget->save();
-        $expected = "UPDATE `widget` SET `name` = 'Fred', `age` = '10', `added` = NOW() WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `name` = ?, `age` = ?, `added` = NOW() WHERE `id` = ? {array (  0 => 'Fred',  1 => 10,  2 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -470,7 +470,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget = ORM::forTable('widget')->findOne(1);
         $widget->set(array("name" => "Fred", "age" => 10));
         $widget->save();
-        $expected = "UPDATE `widget` SET `name` = 'Fred', `age` = '10' WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `name` = ?, `age` = ? WHERE `id` = ? {array (  0 => 'Fred',  1 => 10,  2 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -479,7 +479,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->set(array("name" => "Fred", "age" => 10));
         $widget->setExpr(array("added" => "NOW()", "lat_long" => "GeomFromText('POINT(1.2347 2.3436)')"));
         $widget->save();
-        $expected = "UPDATE `widget` SET `name` = 'Fred', `age` = '10', `added` = NOW(), `lat_long` = GeomFromText('POINT(1.2347 2.3436)') WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `name` = ?, `age` = ?, `added` = NOW(), `lat_long` = GeomFromText('POINT(1.2347 2.3436)') WHERE `id` = ? {array (  0 => 'Fred',  1 => 10,  2 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -489,20 +489,20 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget->setExpr(array("added" => "NOW()", "lat_long" => "GeomFromText('POINT(1.2347 2.3436)')"));
         $widget->lat_long = 'unknown';
         $widget->save();
-        $expected = "UPDATE `widget` SET `name` = 'Fred', `age` = '10', `added` = NOW(), `lat_long` = 'unknown' WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `name` = ?, `age` = ?, `added` = NOW(), `lat_long` = ? WHERE `id` = ? {array (  0 => 'Fred',  1 => 10,  2 => 'unknown',  3 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testDeleteData() {
         $widget = ORM::forTable('widget')->findOne(1);
         $widget->delete();
-        $expected = "DELETE FROM `widget` WHERE `id` = '1'";
+        $expected = "DELETE FROM `widget` WHERE `id` = ? {array (  0 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
     public function testDeleteMany() {
         ORM::forTable('widget')->whereEqual('age', 10)->delete_many();
-        $expected = "DELETE FROM `widget` WHERE `age` = '10'";
+        $expected = "DELETE FROM `widget` WHERE `age` = ? {array (  0 => 10,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -567,7 +567,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget = ORM::forTable('widget')->findOne(1);
         $widget->set('ad`ded', '2013-01-04');
         $widget->save();
-        $expected = "UPDATE `widget` SET `ad``ded` = '2013-01-04' WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `ad``ded` = ? WHERE `id` = ? {array (  0 => '2013-01-04',  1 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 
@@ -575,7 +575,7 @@ class QueryBuilderPsr1Test53 extends PHPUnit_Framework_TestCase {
         $widget = ORM::forTable('widget')->findOne(1);
         $widget->setExpr('added', 'NOW()');
         $widget->save();
-        $expected = "UPDATE `widget` SET `added` = NOW() WHERE `id` = '1'";
+        $expected = "UPDATE `widget` SET `added` = NOW() WHERE `id` = ? {array (  0 => 1,)}";
         $this->assertEquals($expected, ORM::getLastQuery());
     }
 }

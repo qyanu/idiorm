@@ -31,7 +31,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
 
     public function testSettingIdColumn() {
         ORM::for_table('widget')->find_one(5);
-        $expected = "SELECT * FROM `widget` WHERE `primary_key` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `primary_key` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
     }
 
@@ -39,7 +39,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget')->find_one(5);
-        $expected = "SELECT * FROM `widget` WHERE `widget_id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `widget_id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();
@@ -49,7 +49,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget_handle')->find_one(5);
-        $expected = "SELECT * FROM `widget_handle` WHERE `widget_handle_id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget_handle` WHERE `widget_handle_id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();
@@ -59,7 +59,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget_nozzle')->find_one(5);
-        $expected = "SELECT * FROM `widget_nozzle` WHERE `primary_key` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget_nozzle` WHERE `primary_key` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();
@@ -69,7 +69,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget')->use_id_column('new_id')->find_one(5);
-        $expected = "SELECT * FROM `widget` WHERE `new_id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget` WHERE `new_id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();
@@ -79,7 +79,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget_handle')->use_id_column('new_id')->find_one(5);
-        $expected = "SELECT * FROM `widget_handle` WHERE `new_id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget_handle` WHERE `new_id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();
@@ -89,7 +89,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase {
         $this->setUpIdColumnOverrides();
 
         ORM::for_table('widget_nozzle')->use_id_column('new_id')->find_one(5);
-        $expected = "SELECT * FROM `widget_nozzle` WHERE `new_id` = '5' LIMIT 1";
+        $expected = "SELECT * FROM `widget_nozzle` WHERE `new_id` = ? LIMIT 1 {array (  0 => 5,)}";
         $this->assertEquals($expected, ORM::get_last_query());
 
         $this->tearDownIdColumnOverrides();

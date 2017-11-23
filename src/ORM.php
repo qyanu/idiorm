@@ -523,8 +523,8 @@ class ORM implements ArrayAccess {
         } else {
             $c = self::get_db($connection_name);
             self::_log_query("UNSUCCESSFUL query: ".$query."\n"
-                ."result: ".vare($q).": (".vare($statement->errorCode()).") ".vare($statement->errorInfo())."\n"
-                ."connection: ".vare($c->errorCode()).": ".vare($c->errorInfo())
+                ."result: ".var_export($q, true).": (".var_export($statement->errorCode(), true).") ".var_export($statement->errorInfo(), true)."\n"
+                ."connection: ".var_export($c->errorCode(), true).": ".var_export($c->errorInfo(), true)
                 , $parameters, $connection_name, (microtime(true)-$time));
         }
 
